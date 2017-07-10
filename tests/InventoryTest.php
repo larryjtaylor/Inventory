@@ -67,5 +67,38 @@
             $result = Collectible::getAll();
             $this->assertEquals([], $result);
         }
+
+        function testGetId()
+        {
+            //Arrange
+            $item = "Coins";
+            $test_collectible = new Collectible($item);
+            $test_collectible->save();
+
+            //Act
+            $result = $test_collectible->getId();
+
+            //Assert
+            $this->assertTrue(is_numeric($result));
+        }
+
+        function testFind()
+        {
+            //Arrange
+            $item = "Coins";
+            $item_2 = "Barbies";
+            $test_collectible = new Collectible($item);
+            $test_collectible->save();
+            $test_collectible_2 = new Collectible($item_2);
+            $test_collectible_2->save();
+
+            //Act
+            $id = $test_collectible->getId();
+            $result = Collectible::find($id);
+
+            //Assert
+            $this->assertEquals($test_collectible, $result);
+        }
+
     }
 ?>

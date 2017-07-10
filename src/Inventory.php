@@ -1,11 +1,14 @@
 <?php
     class Collectible
     {
-        private $item;
 
-        function __construct($item)
+        private $item;
+        private $id;
+
+        function __construct($item, $id = null)
         {
             $this->item = $item;
+            $this->id = $id;
         }
 
         function setItem($new_item)
@@ -18,13 +21,19 @@
             return $this->item;
         }
 
+        function getId()
+        {
+            return $this->id;
+        }
+
         function save()
         {
             $executed = $GLOBALS['DB']->exec("INSERT INTO collectibles (item) VALUES ('{$this->getItem()}');");
             if ($executed) {
-                 return true;
+                $this->id = $GLOBALS['DB']->lastInsertId();
+                return true;
             } else {
-                 return false;
+                return false;
             }
         }
 
@@ -34,10 +43,27 @@
             $collectibles = array();
             foreach($returned_collectibles as $collectible) {
                 $item = $collectible['item'];
-                $new_collectible = new Collectible($item);
+                $id = $collectible['id'];
+                $new_collectible = new Collectible($item, $id);
                 array_push($collectibles, $new_collectible);
             }
             return $collectibles;
+        }
+
+        static function find($search_id)
+        {
+            $returned_collectibles = $GLOBALS['DB']->prepare("SELECT * FROM collectibles WHERE id = :id");
+            $returned_collectibles->bindParam(':id', $search_id, PDO::PARAM_STR);
+            $returned_collectibles->execute();
+            foreach ($returned_collectibles as $collectible) {
+               $collectible_item = $collectible['item'];
+               $collectible_id = $collectible['id'];
+               if ($collectible_id == $search_id) {
+                  $found_item = new Collectible($collectible_item, $collectible_id);
+               }
+            }
+
+            return $found_item;
         }
 
         static function deleteAll()
