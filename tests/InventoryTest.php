@@ -15,6 +15,10 @@
 
     class CollectibleTest extends PHPUnit_Framework_TestCase
     {
+        protected function tearDown()
+        {
+            Collectible::deleteAll();
+        }
 
         function test_save()
         {
@@ -32,7 +36,7 @@
         function testGetAll()
         {
             //Arrange
-            $item_1 = "Coins";
+            $item = "Coins";
             $item_2 = "Barbies";
             $test_collectible = new Collectible($item);
             $test_collectible->save();
@@ -44,6 +48,24 @@
 
             //Assert
             $this->assertEquals([$test_collectible, $test_collectible_2], $result);
-        } 
+        }
+
+        function testDeleteAll()
+        {
+            //Arrange
+            $item = "Coins";
+            $item_2 = "Barbies";
+            $test_collectible = new Collectible($item);
+            $test_collectible->save();
+            $test_collectible_2 = new Collectible($item_2);
+            $test_collectible_2->save();
+
+            //Act
+            Collectible::deleteAll();
+
+            //Assert
+            $result = Collectible::getAll();
+            $this->assertEquals([], $result);
+        }
     }
 ?>

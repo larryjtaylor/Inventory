@@ -33,11 +33,21 @@
             $returned_collectibles = $GLOBALS['DB']->query("SELECT * FROM collectibles;");
             $collectibles = array();
             foreach($returned_collectibles as $collectible) {
-            $item = $collectible['item'];
-            $new_collectible = new Collectible($item);
-            array_push($collectibles, $new_collectible);
+                $item = $collectible['item'];
+                $new_collectible = new Collectible($item);
+                array_push($collectibles, $new_collectible);
+            }
+            return $collectibles;
         }
-        return $collectibles;
-      }
+
+        static function deleteAll()
+        {
+            $executed = $GLOBALS['DB']->exec("DELETE FROM collectibles;");
+            if ($executed) {
+                return true;
+            } else {
+                return false;
+            }
+        }
     }
 ?>
