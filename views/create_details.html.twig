@@ -1,0 +1,29 @@
+<html>
+    <head>
+        <title>Collections</title>
+    </head>
+    <body>
+        <h1>Descriptions of Collections</h1>
+
+        {% if descriptions is not empty %}
+            <p>Here are all your descriptions:</p>
+            <ul>
+            {% for description in descriptions %}
+                <li>{{ description.getDetail }}</li>
+            {% endfor %}
+            </ul>
+        {% endif %}
+
+        <form action='/descriptions' method='post'>
+            <label for='detail'>Description</label>
+            <input id='detail' name='detail' type='text'>
+
+            <button type='submit'>Add details</button>
+        </form>
+        <form action='/delete_collectibles' method='post'>
+            <button type='submit'>Clear</button>
+        </form>
+
+        <p><a href='/'>Home</a></p>
+    </body>
+</html>

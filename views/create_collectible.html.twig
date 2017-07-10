@@ -1,0 +1,29 @@
+<html>
+    <head>
+        <title>Collections</title>
+    </head>
+    <body>
+        <h1>Collections</h1>
+
+        {% if collectibles is not empty %}
+            <p>Here are all your collections:</p>
+            <ul>
+                {% for collectible in collectibles %}
+                    <li>{{ collectibles.getItem }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+
+        <form action='/collectibles' method='post'>
+            <label for='item'>Collection type:</label>
+            <input id='item' name='item' type='text'>
+
+            <button type='submit'>Add collection</button>
+        </form>
+        <form action='/delete_collectibles' method='post'>
+            <button type='submit'>Clear</button>
+        </form>
+
+        <p><a href='/'>Home</a></p>
+    </body>
+</html>
