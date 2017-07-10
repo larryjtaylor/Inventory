@@ -28,5 +28,22 @@
             // Assert
             $this->assertTrue($executed, "Collectible not successfully saved to database");
         }
+
+        function testGetAll()
+        {
+            //Arrange
+            $item_1 = "Coins";
+            $item_2 = "Barbies";
+            $test_collectible = new Collectible($item);
+            $test_collectible->save();
+            $test_collectible_2 = new Collectible($item_2);
+            $test_collectible_2->save();
+
+            //Act
+            $result = Collectible::getAll();
+
+            //Assert
+            $this->assertEquals([$test_collectible, $test_collectible_2], $result);
+        } 
     }
 ?>

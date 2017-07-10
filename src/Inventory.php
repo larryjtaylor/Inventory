@@ -27,5 +27,17 @@
                  return false;
             }
         }
+
+        static function getAll()
+        {
+            $returned_collectibles = $GLOBALS['DB']->query("SELECT * FROM collectibles;");
+            $collectibles = array();
+            foreach($returned_collectibles as $collectible) {
+            $item = $collectible['item'];
+            $new_collectible = new Collectible($item);
+            array_push($collectibles, $new_collectible);
+        }
+        return $collectibles;
+      }
     }
 ?>
