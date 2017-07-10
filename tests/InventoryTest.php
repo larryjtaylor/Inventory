@@ -20,7 +20,7 @@
             Collectible::deleteAll();
         }
 
-        function test_save()
+        function testSave()
         {
             //Arrange
             $item = "Coins";

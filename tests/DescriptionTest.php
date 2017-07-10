@@ -7,7 +7,7 @@
 
     require_once "src/Description.php";
 
-    $server = 'mysql:host=localhost:8889;dbname=to_do_test';
+    $server = 'mysql:host=localhost:8889;dbname=inventory_test';
     $username = 'root';
     $password = 'root';
     $DB = new PDO($server, $username, $password);
@@ -20,30 +20,64 @@
           Description::deleteAll();
         }
 
-        function testGetDetails()
+        function testSave()
+         {
+             //Arrange
+             $detail = "rare copper man";
+             $test_description = new Description($detail);
+
+             //Act
+             $executed = $test_description->save();
+
+             // Assert
+             $this->assertTrue($executed, "Description not successfully saved to database");
+         }
+
+         function testGetAll()
+         {
+             //Arrange
+             $detail = "rare copper man";
+             $detail_2 = "troll version";
+             $test_description = new Description($detail);
+             $test_description->save();
+             $test_description_2 = new Description($detail_2);
+             $test_description_2->save();
+
+             //Act
+             $result = Description::getAll();
+
+             //Assert
+             $this->assertEquals([$test_description, $test_description_2], $result);
+         }
+
+        // function testGetDetails()
+        // {
+        //     //Arrange
+        //     $detail = "rare copper man";
+        //     $test_description = new Description($detail);
+        //
+        //     //Act
+        //     $result = $test_description->getDetail();
+        //
+        //     //Assert
+        //     $this->assertEquals($detail, $result);
+        // }
+        function testDeleteAll()
         {
             //Arrange
             $detail = "rare copper man";
+            $detail_2 = "troll version";
             $test_description = new Description($detail);
+            $test_description->save();
+            $test_description_2 = new Description($detail_2);
+            $test_description_2->save();
 
             //Act
-            $result = $test_description->getDetails();
+            Description::deleteAll();
 
             //Assert
-            $this->assertEquals($detail, $result);
-        }
-
-       function testSave()
-        {
-            //Arrange
-            $detail = "rare copper man";
-            $test_description = new Description($detail);
-
-            //Act
-            $executed = $test_description->save();
-
-            // Assert
-            $this->assertTrue($executed, "Description not successfully saved to database");
+            $result = Description::getAll();
+            $this->assertEquals([], $result);
         }
 
         function testGetId()
@@ -57,56 +91,23 @@
             $result = $test_description->getId();
 
             //Assert
-            $this->assertEquals(true, is_numeric($result));
+            $this->assertTrue(is_numeric($result));
         }
 
-        function testGetAll()
-        {
-            //Arrange
-            $detail = "rare copper man";
-            $detail_2 = "troll version";
-            $test_description = new Description($detail);
-            $test_description->save();
-            $test_description_2 = new Description($detail_2);
-            $test_description_2->save();
-
-            //Act
-            $result = Description::getAll();
-
-            //Assert
-            $this->assertEquals([$test_description, $test_description_2], $result);
-        }
-
-        function testDeleteAll()
-        {
-            //Arrange
-            $detail = "rare copper man";
-            $detail_2 = "troll version";
-            $test_description = new Description($detail);
-            $test_description->save();
-            $test_description_2 = new Description($detail_2);
-            $test_description_2->save();
-
-            //Act
-            Description::deleteAll();
-            $result = Description::getAll();
-
-            //Assert
-            $this->assertEquals([], $result);
-        }
 
         function testFind()
         {
             //Arrange
             $detail = "rare copper man";
-            $detail2 = "troll version";
+            $detail_2 = "troll version";
             $test_description = new Description($detail);
             $test_description->save();
-            $test_description_2 = new Description($detail2);
+            $test_description_2 = new Description($detail_2);
             $test_description_2->save();
 
             //Act
-            $result = Description::find($test_description->getId());
+            $id = $test_description->getId();
+            $result = Description::find($id);
 
             //Assert
             $this->assertEquals($test_description, $result);

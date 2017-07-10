@@ -52,6 +52,7 @@
 
         static function find($search_id)
         {
+            $found_collectible = null;
             $returned_collectibles = $GLOBALS['DB']->prepare("SELECT * FROM collectibles WHERE id = :id");
             $returned_collectibles->bindParam(':id', $search_id, PDO::PARAM_STR);
             $returned_collectibles->execute();
@@ -59,11 +60,11 @@
                $collectible_item = $collectible['item'];
                $collectible_id = $collectible['id'];
                if ($collectible_id == $search_id) {
-                  $found_item = new Collectible($collectible_item, $collectible_id);
+                  $found_collectible = new Collectible($collectible_item, $collectible_id);
                }
             }
 
-            return $found_item;
+            return $found_collectible;
         }
 
         static function deleteAll()
