@@ -9,7 +9,7 @@
             <p>Here are all your collections:</p>
             <ul>
                 {% for collectible in collectibles %}
-                    <li>{{ collectibles.getItem }}</li>
+                    <li>{{ collectible.getItem }}</li>
                 {% endfor %}
             </ul>
         {% endif %}
