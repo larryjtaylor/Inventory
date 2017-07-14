@@ -1,5 +1,5 @@
 <?php
-    date_default_timezone_set('America/Los_Angeles');
+    date_default_timezone_set('America/Los_Angeles'); 
     require_once __DIR__."/../vendor/autoload.php";
     require_once __DIR__."/../src/Inventory.php";
     require_once __DIR__."/../src/Description.php";

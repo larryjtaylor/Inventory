@@ -1,5 +1,5 @@
 <?php
-    class Description
+    class Description 
     {
         private $detail;
         private $id;

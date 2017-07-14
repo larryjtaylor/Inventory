@@ -1,5 +1,5 @@
 <?php
-    class Collectible
+    class Collectible 
     {
 
         private $item;
